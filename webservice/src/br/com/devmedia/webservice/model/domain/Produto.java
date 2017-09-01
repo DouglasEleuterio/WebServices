@@ -5,11 +5,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity // A classe é uma entidade
+@Entity // A classe e uma entidade
 public class Produto {
 
 	@Id // Identificador Unico
-	@GeneratedValue(strategy=GenerationType.IDENTITY) // Geração de Identidade, auto incremento MySQL
+	@GeneratedValue(strategy=GenerationType.IDENTITY) // GeraÃ§Ã£o de Identidade, auto incremento MySQL
 	private Long id;
 	
 	private String nome;
