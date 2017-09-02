@@ -4,7 +4,7 @@ import java.util.List;
 
 import br.com.devmedia.webservice.model.dao.ProdutoDAO;
 import br.com.devmedia.webservice.model.domain.Produto;
-
+// regras de negocios nesta classe
 public class ProdutoService {
 
 	private ProdutoDAO dao = new ProdutoDAO();
@@ -16,6 +16,7 @@ public class ProdutoService {
 	public Produto getProduto(Long id) {
 		return dao.getById(id);
 	}
+	
 
 	public Produto saveProduto(Produto produto) {
 		return dao.save(produto);
@@ -28,4 +29,14 @@ public class ProdutoService {
 	public Produto deleteProduto(Long id) {
 		return dao.delete(id);
 	}
+	
+	public List<Produto> getProdutosByPagination(int firstResult, int maxResults) {
+		return dao.getByPagination(firstResult, maxResults);
+	}
+	
+	public List <Produto> getProdutoByName(String name){
+		return dao.getByName(name);
+	}
+	
+	
 }

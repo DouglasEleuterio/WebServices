@@ -96,7 +96,7 @@ public class ProdutoDAO {
 			throw new DAOException("O id precisa ser meior do que 0.", ErrorCode.BAD_REQUEST.getCode());
 		}
 
-		if (!produtoIsValid(produtoManaged)) {
+		if (!produtoIsValid(produto)) {
 			throw new DAOException("Produto com dados incompletos.", ErrorCode.BAD_REQUEST.getCode());
 		}
 
@@ -157,7 +157,7 @@ public class ProdutoDAO {
 
 	private boolean produtoIsValid(Produto produto) {
 		try {
-			if ((produto.getNome().isEmpty()) || (produto.getQuantidade() < 0)) {
+			if ((produto.getNome().isEmpty()) || (produto.getQuantidade() <= 0)) {
 				return false;
 			}
 		} catch (NullPointerException ex) {
@@ -207,4 +207,27 @@ public class ProdutoDAO {
 		return produtos;
 	}
 
+	public List<Produto> getByPagination(int firstResult, int maxResults) {
+		List<Produto> produtos;
+		EntityManager em = JPAUtil.geEntityManager();
+		 		
+		try {
+			produtos = em.createQuery("select p from Produto p", Produto.class)
+					.setFirstResult(firstResult - 1)
+					.setMaxResults(maxResults)
+					.getResultList();
+		} catch (RuntimeException ex) {
+			throw new DAOException("Erro ao buscar produtos no banco de dados: " + ex.getMessage(), ErrorCode.SERVER_ERROR.getCode());
+		} finally {
+			em.close();
+		}
+		
+		if (produtos.isEmpty()) {
+			throw new DAOException("Página com produtos vazia.", ErrorCode.NOT_FOUND.getCode());
+		}
+		
+		return produtos;
+	}
+	
+	
 }
